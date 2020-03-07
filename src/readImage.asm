@@ -83,7 +83,7 @@ continue:
 	addi $s5, $s5, 6		# increase the number of characters by 6
 					# 6 = magic number (2) + 4 * Whitespace
 	
-	######## use of stoi ########
+	######## use of atoi ########
 	# the width, height, and maximum gray value in the header
 	# are all formatted as ASCII characters in decimal,
 	# so we need to transform them into real integer value
