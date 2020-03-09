@@ -415,25 +415,25 @@ end_loop:
 	#syscall
 	
 	# check the contents we get
-	addi $t0, $zero, 0
-	la   $t2, 12($s1)		# $t0 point to the array address in struct
+#	addi $t0, $zero, 0
+#	la   $t2, 12($s1)		# $t0 point to the array address in struct
 	
-print_struct:
+#print_struct:
 	
-	beq $t0,168,exit
+#	beq $t0,168,exit
 	
-	li $v0,1
-      	lb $a0,0($t2)
-	syscall
+#	li $v0,1
+#      	lb $a0,0($t2)
+#	syscall
 	
-	addi $t2,$t2,1
-	addi $t0,$t0,1
-	j print_struct
+#	addi $t2,$t2,1
+#	addi $t0,$t0,1
+#	j print_struct
 
-exit:
-	li $v0, 11
-	li $a0, 0x0A
-	syscall
+#exit:
+#	li $v0, 11
+#	li $a0, 0x0A
+#	syscall
 	
 	move $v0, $s1
 	j end
