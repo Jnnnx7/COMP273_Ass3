@@ -29,7 +29,13 @@ invert_image:
 	
 invert:
 	lb    $t2, 0($t0)		# load byte
+
 	sub   $t3, $s3, $t2		# compute the inverted value
+	
+	bne   $s3, $t2, save		# used to deal with the -0 problem
+	sub   $t3, $zero, $t3		 
+
+save:	
 	sb    $t3, 0($t0)		# store the new value
 	
 	# check if max value need to be updated

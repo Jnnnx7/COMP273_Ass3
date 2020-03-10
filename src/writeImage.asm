@@ -164,7 +164,7 @@ write_P2:
   	li    $t0, '2'			# write '2' into buffer
   	sb    $t0, 0($a1)		
   	addiu $a1, $a1, 1		# advance the pointer by 1
-  	li    $t0, 0x20			# write white space into buffer
+  	li    $t0, 0x0A			# write white space into buffer
   	sb    $t0, 0($a1)		
   	addiu $a1, $a1, 1		# advance the pointer by 1
   	addiu $s6, $s6, 3		# increase the header length by 3
@@ -189,7 +189,7 @@ write_P2:
 	addi  $a0, $s3, 0		# transfer height to ascii code
   	jal   itoa
   	add   $s6, $s6, $v0		# increase the header length by the string length we counted
-  	li    $t0, 0x20			# append white space
+  	li    $t0, 0x0A			# append white space
   	sb    $t0, 0($a1)
   	addiu $a1, $a1, 1		# advance the pointer by 1 to write next byte
   	addiu $s6, $s6, 1		# increase the header length by 1 for the white space
@@ -208,8 +208,6 @@ write_P2:
 	#li    $v0, 11
 	#lb    $a0, 4($a1)
 	#syscall
-	
-	
 	
 	# open file for write
 	li    $v0, 13
@@ -236,7 +234,16 @@ write_P2:
 	
 
 content_loop:
+	beq   $t1, $s5, end_loop
+
 	lb    $t3, 0($t2)		# load byte by byte
+	
+	# if $t3 is negative, convert to positive
+	blt   $t3, $zero, to_positive
+	j     convert_loop
+	
+to_positive:
+	addi  $t3, $t3, 256	
 	
 	# check the byte loaded
 	#li    $v0, 11
@@ -257,8 +264,7 @@ convert_loop:
   	sb    $t4, 0($sp)            	# push $t2 in the stack
   	
   	# increase the number of digits counted
-  	addi  $t5, $t5, 1            	# $t6++, count up
-  	
+  	addi  $t5, $t5, 1            	# $t5++, count up
   	
   	# if quotient($t4) is not equal zero, continue converting
   	bne   $t3, $zero, convert_loop
@@ -267,6 +273,12 @@ convert_loop:
   	#add   $t7, $zero, $t6 
  
 convert_order:
+	# check the byte popped
+	#li    $v0, 1
+	#lb    $a0, 0($sp)
+	#addi  $a0, $a0, -48
+	#syscall
+
   	# write byte by byte to file
   	li    $v0, 15
   	la    $a1, 0($sp)		# pop the last byte for the stack
@@ -287,8 +299,6 @@ convert_order:
   	
   	addi  $t2, $t2, 1		# advance the array pointer
   	addi  $t1, $t1, 1		# increase the number of bytes we write
-  	
-  	beq   $t1, $s5, end_loop
  
  	j    content_loop
 	

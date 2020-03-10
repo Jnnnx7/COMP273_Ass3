@@ -82,7 +82,7 @@ write_file:
 	# Add  code here
 	
 	li   $v0, 13            # system call for open file
-	li   $a1, 1             # Open for writing
+	li   $a1, 1             # open for writing
 	li   $a2, 0
 	syscall                 # open a file (file descriptor returned in $v0)
 	
