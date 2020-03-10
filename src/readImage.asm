@@ -323,7 +323,7 @@ write_P2:
 	
 	# have no idea why I get an extra 0
 	# just hard code to skip it
-	addi  $t6, $zero, 0
+#	addi  $t6, $zero, 0
 	
 content_loop:
 	beq   $t2, $s6, end_loop	# if the array is full, end loop
@@ -362,7 +362,7 @@ skip:
 	#addi  $a0, $t3, 0
 	#syscall
 	
-	beqz  $t7, skip_first
+#	beqz  $t7, skip_first
 	
 	sb    $t3, 0($t0)
 	addi  $t3, $zero, 0		# clear $t3 for next read
@@ -371,8 +371,8 @@ skip:
 	
 	addi  $t0, $t0, 1		# move to write next byte
 
-skip_first:
-	addi  $t7, $t7, 1
+#skip_first:
+#	addi  $t7, $t7, 1
 	addi  $t1, $t1, 1		# move to read next byte in buffer
 	
 	# if next byte is still white space, keep skipping
